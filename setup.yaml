@@ -1,0 +1,8 @@
+---
+- hosts: 'localhost'
+  roles:
+    - role: "structure"
+      tags: "structure"
+    - role: "docker"
+      tags: "docker"
+...

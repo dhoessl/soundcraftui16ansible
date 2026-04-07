@@ -1,0 +1,95 @@
+---
+- name: "Setup Docker"
+  ansible.builtin.include_tasks:
+    file: "install.yaml"
+
+- name: "Setup container data dirs"
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_base_path }}/{{ item.base }}/{{ item.data }}"
+    state: "directory"
+    owner: "{{ item.owner | default(ansible_facts['user_id']) }}"
+    group: "{{ item.group | default(ansible_facts['user_gid']) }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - base: "nodejs"
+      data: "base"
+
+- name: "Copy Config files"
+  become: true
+  ansible.builtin.copy:
+    src: "files/{{ item.name }}"
+    dest: "{{ docker_base_path }}/{{ item.dir }}/{{ item.name }}"
+    owner: "{{ item.owner | default(ansible_facts['user_id']) }}"
+    group: "{{ item.group | default(ansible_facts['user_gid']) }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop:
+    - name: "package.json"
+      dir: "nodejs"
+    - name: "mosquitto.conf"
+      dir: "mqtt"
+      owner: "1883"
+
+- name: "Copy data files"
+  become: true
+  ansible.builtin.copy:
+    src: "files/{{ item.path }}"
+    dest: "{{ docker_base_path }}/{{ item.dest }}"
+    owner: "{{ item.owner | default(ansible_facts['user_id']) }}"
+    group: "{{ item.group | default(ansible_facts['user_gid']) }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop:
+    - path: "nodejs/js/"
+      dest: "nodejs/base"
+
+- name: "Create Network"
+  community.docker.docker_network:
+    driver: "bridge"
+    ipam_config:
+      - subnet: "{{ docker_project_network | default('192.168.55') }}.0/24"
+    name: "soundcraftui16mqtt"
+
+- name: "Create Container"
+  community.docker.docker_compose_v2:
+    project_name: "soundcraftui16mqtt"
+    pull: "{{ docker_image_pull | default('missing') }}"
+    state: "present"
+    definition:
+      networks:
+        soundcraftui16mqtt:
+          external: true
+      services:
+        nodejs:
+          container_name: "nodejs"
+          image: "node:25.0"
+          restart: "unless-stopped"
+          working_dir: "/home/node/app"
+          volumes:
+            - "{{ docker_base_path }}/nodejs/package.json:/home/node/app/package.json"
+            - "{{ docker_base_path }}/nodejs/base:/home/node/app/base"
+          ports:
+            - "{{ docker_nodejs_port | default(3000) }}:3000"
+          networks:
+            soundcraftui16mqtt:
+              aliases:
+                - "nodejs"
+          environment:
+            NODE_ENV: "production"
+          command: 'bash -c "
+              npm install && npm start
+            "'
+        mqtt:
+          container_name: "mqtt"
+          image: "eclipse-mosquitto"
+          restart: "unless-stopped"
+          volumes:
+            - "{{ docker_base_path }}/mqtt:/mosquitto/config"
+          ports:
+            - "{{ docker_mqtt_port | default(1883) }}:1883"
+            - "{{ docker_mqtt_websocket_port | default(9001) }}:9001"
+          user: "1883:1000"
+          networks:
+            soundcraftui16mqtt:
+              aliases:
+                - "mqtt"
+...

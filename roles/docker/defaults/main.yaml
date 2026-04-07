@@ -1,0 +1,4 @@
+---
+docker_base_path: "{{ structure_base_path }}"
+
+...
