@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <%- include("partials/header.ejs", {subtitle: "Status"}) %>
+  <body>
+    <div id="mqtt_data" host="<%= mqtt_host %>" port="<%= mqtt_port %>" uuid="<%= uuid %>" hidden=""></div>
+    <div class="container-fluid text-center">
+      <div class="row">
+        <div class="col">
+          <h1 style="color: white;">Status</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col mx-2">
+          <button type="button" class="btn btn-danger" id="btn-mqtt" style="width: 7rem;">MQTT</button>
+          <table class="table-dark mt-3 table-max-width">
+            <tbody>
+              <tr>
+                <th style="width: 50%">Address</th>
+                <td><%= mqtt_host %></td>
+              </tr>
+              <tr>
+                <th style="width: 50%">Port</th>
+                <td><%= mqtt_port %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col mx-2">
+          <button type="button" class="btn btn-danger" id="btn-mixer" style="width: 12rem;">Mixer Listener</button>
+          <table class="table-dark mt-3 table-max-width">
+            <tbody>
+              <tr>
+                <th style="width: 50%">Address</th>
+                <td id="mixer_address">N/A</td>
+              </tr>
+              <tr>
+                <th style="width: 50%">Port</th>
+                <td id="mixer_port">80</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col mx-2">
+          <button type="button" class="btn btn-danger" id="btn-apcmk2" style="width: 7rem;">APC MK2</button>
+        </div>
+        <div class="col mx-2">
+          <button type="button" class="btn btn-danger" id="btn-midimix" style="width: 7rem;">MidiMix</button>
+        </div>
+      </div>
+    </div>
+    <%- include("partials/scripts.ejs") %>
+    <script src="js/status.js"></script>
+  </body>
+</html>

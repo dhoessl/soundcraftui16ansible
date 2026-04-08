@@ -1,0 +1,8 @@
+---
+- name: "Restart nodejs"
+  community.docker.docker_container:
+    name: "nodejs"
+    state: "started"
+    restart: true
+
+...

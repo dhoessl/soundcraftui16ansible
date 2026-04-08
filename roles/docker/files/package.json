@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node base/index.js"
+    "start": "node app.js"
   },
   "dependencies": {
-    "express": "latest"
+    "express": "latest",
+    "ejs": "latest"
   }
 }

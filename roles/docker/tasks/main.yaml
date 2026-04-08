@@ -3,18 +3,6 @@
   ansible.builtin.include_tasks:
     file: "install.yaml"
 
-- name: "Setup container data dirs"
-  become: true
-  ansible.builtin.file:
-    path: "{{ docker_base_path }}/{{ item.base }}/{{ item.data }}"
-    state: "directory"
-    owner: "{{ item.owner | default(ansible_facts['user_id']) }}"
-    group: "{{ item.group | default(ansible_facts['user_gid']) }}"
-    mode: "{{ item.mode | default('0755') }}"
-  loop:
-    - base: "nodejs"
-      data: "base"
-
 - name: "Copy Config files"
   become: true
   ansible.builtin.copy:
@@ -29,6 +17,8 @@
     - name: "mosquitto.conf"
       dir: "mqtt"
       owner: "1883"
+  notify:
+    - "Restart nodejs"
 
 - name: "Copy data files"
   become: true
@@ -39,8 +29,14 @@
     group: "{{ item.group | default(ansible_facts['user_gid']) }}"
     mode: "{{ item.mode | default('0644') }}"
   loop:
-    - path: "nodejs/js/"
-      dest: "nodejs/base"
+    - path: "nodejs/app.js"
+      dest: "nodejs/app.js"
+    - path: "nodejs/public/"
+      dest: "nodejs/public"
+    - path: "nodejs/views/"
+      dest: "nodejs/views"
+  notify:
+    - "Restart nodejs"
 
 - name: "Create Network"
   community.docker.docker_network:
@@ -65,8 +61,7 @@
           restart: "unless-stopped"
           working_dir: "/home/node/app"
           volumes:
-            - "{{ docker_base_path }}/nodejs/package.json:/home/node/app/package.json"
-            - "{{ docker_base_path }}/nodejs/base:/home/node/app/base"
+            - "{{ docker_base_path }}/nodejs:/home/node/app"
           ports:
             - "{{ docker_nodejs_port | default(3000) }}:3000"
           networks:
