@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <%- include("partials/header.ejs", {subtitle: "VUMeter"}) %>
+  <body>
+    <%- include("partials/settings.ejs") %>
+    <%- include("partials/toasts.ejs") %>
+    <div class="container-fluid text-center">
+      <div class="row px-3 pt-1 d-flex align-items-end" style="height: 50vh">
+      <% for(let i=0; i < 12; i++) { %>
+        <div class="col px-1 h-100" id="bar-input-<%= i %>">
+          <div class="row g-0 h-85">
+            <div class="col-4 bar-container">
+                <div class="bar bar-green bar-pre"></div>
+            </div>
+            <div class="col-4 bar-container">
+                <div class="bar bar-green bar-post"></div>
+            </div>
+            <div class="col-4 bar-container">
+              <div class="bar bar-green bar-real"></div>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-4">
+              Pre
+            </div>
+            <div class="col-4">
+              Post
+            </div>
+            <div class="col-4">
+              Real
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col">
+              <span class="channel-level">-80db</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Input <%= i + 1 %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+      </div>
+      <div class="row px-3 pt-1 d-flex align-items-end" style="height: 50vh">
+      <% for(let i=0; i < 6; i++) { %>
+        <div class="col-1 px-1 h-100" id="bar-aux-<%= i %>">
+          <div class="row g-0 h-85">
+            <div class="col-6 bar-container">
+              <div class="bar bar-green bar-post"></div>
+            </div>
+            <div class="col-6 bar-container">
+              <div class="bar bar-green bar-real"></div>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-6">
+              Post
+            </div>
+            <div class="col-6">
+              Real
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col">
+              <span class="channel-level">-80db</span>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col">
+              Aux <%= i + 1 %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+      <% for(let i=0; i < 4; i++) { %>
+        <div class="col-1 px-1 h-100" id="bar-fx-<%= i %>">
+          <div class="row g-0 h-80">
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-post-l"></div>
+            </div>
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-post-r"></div>
+            </div>
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-real-l"></div>
+            </div>
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-post-l"></div>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-6">
+              Post
+            </div>
+            <div class="col-6">
+              Real
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-3">
+              L
+            </div>
+            <div class="col-3">
+              R
+            </div>
+            <div class="col-3">
+              L
+            </div>
+            <div class="col-3">
+              R
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-6">
+              <span class="channel-level-left">-80db</span>
+            </div>
+            <div class="col-6">
+              <span class="channel-level-right">-80db</span>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col">
+              FX <%= i + 1 %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+        <div class="col-1 px-1 bar-master h-100">
+          <div class="row g-0 h-80">
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-post-l"></div>
+            </div>
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-real-l"></div>
+            </div>
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-real-r"></div>
+            </div>
+            <div class="col-3 bar-container">
+              <div class="bar bar-green bar-post-r"></div>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-3">
+              Post
+            </div>
+            <div class="col-6">
+              Real
+            </div>
+            <div class="col-3">
+              Post
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-6">
+              Left
+            </div>
+            <div class="col-6">
+              Right
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-6">
+              <span class="channel-level-left">-80db</span>
+            </div>
+            <div class="col-6">
+              <span class="channel-level-right">-80db</span>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col">
+              Master
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modals"></div>
+    <%- include("partials/scripts.ejs") %>
+    <script src="js/vumeter.js"></script>
+  </body>
+</html>

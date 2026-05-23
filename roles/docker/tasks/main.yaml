@@ -20,6 +20,16 @@
   notify:
     - "Restart nodejs"
 
+- name: "Create config if not exists"
+  become: true
+  ansible.builtin.copy:
+    src: "files/nodejs/config.js"
+    dest: "{{ docker_base_path }}/nodejs/config.js"
+    owner: "{{ item.owner | default(ansible_facts['user_id']) }}"
+    group: "{{ item.group | default(ansible_facts['user_gid']) }}"
+    mode: "{{ item.mode | default('0644') }}"
+    force: "{{ docker_force_configjs | default(false) }}"
+
 - name: "Copy data files"
   become: true
   ansible.builtin.copy:
@@ -71,8 +81,8 @@
           environment:
             NODE_ENV: "production"
           command: 'bash -c "
-              npm install && npm start
-            "'
+                    npm install && npm start
+                    "'
         mqtt:
           container_name: "mqtt"
           image: "eclipse-mosquitto"

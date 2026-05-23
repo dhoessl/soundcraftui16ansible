@@ -1,14 +1,24 @@
-window.addEventListener("load", function(){
-  const broker_host = $("#mqtt_data").attr("host");
-  const broker_port = $("#mqtt_data").attr("port");
-  const uuid = $("#mqtt_data").attr("uuid");
-  var client = new Paho.Client(broker_host, Number(broker_port), uuid);
-  window.mqtt_client = client;
+function connectmqtt(){
+  if (window.mqtt_client && window.mqtt_client.isConnected()){
+    window.mqtt_client.disconnect();
+  }
+  $.ajax({
+    method: "GET",
+    url: "/api/mqtt"
+  }).done(function(data, status, jqXHR) {
+    var client = new Paho.Client(data.mqtt.host, Number(data.mqtt.port), data.uuid);
+    window.mqtt_client = client;
+    window.mqtt_client.onConnectionLost = onConnectionLost;
+    window.mqtt_client.onMessageArrived = onMessageArrived;
+    window.mqtt_client.connect({onSuccess:onConnect});
+  }).fail(function(xhr, status, error) {
+    console.log("Error " + error + " while getting mqtt data " + xhr.responseText);
+  });
+}
 
-  // set callback handlers
-  window.mqtt_client.onConnectionLost = onConnectionLost;
-  window.mqtt_client.onMessageArrived = onMessageArrived;
-
-  // connect the client
-  window.mqtt_client.connect({onSuccess:onConnect});
-});
+function onStatusUpdateToast(message) {
+  const data = JSON.parse(message);
+  Object.keys(data).forEach(key => {
+    show_status_toast(key, data[key]);
+  });
+}

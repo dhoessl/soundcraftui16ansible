@@ -1,0 +1,16 @@
+<div class="row g-0 bar-container h-80">
+  <div class="col bar<% if (typeof color !== 'undefined') { %> <%= color %><% } %>">
+  </div>
+</div>
+<div class="row g-0 pt-2">
+  <div class="col">
+    <span class="channel-level">
+      <% if (typeof level !== 'undefined') { %><%= level %><% } else { %> -80db <% } %>
+    </span>
+  </div>
+</div>
+<div class="row g-0">
+  <div class="col">
+    <% if (typeof name !== 'undefined') { %><%= name %><% } %> <% if (typeof number !== 'undefined') { %><%= number %><% } %>
+  </div>
+</div>

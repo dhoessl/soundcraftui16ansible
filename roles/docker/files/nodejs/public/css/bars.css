@@ -1,0 +1,52 @@
+.bar-container {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  transform-origin: bottom;
+  transition: none;
+}
+
+.bar-green {
+  background: #669966;
+}
+
+.bar-blue {
+  background: #6666FF;
+}
+
+.bar-orange {
+  background: #CC6600;
+}
+
+.bar-purple {
+  background: #663399;
+}
+
+.bar-red {
+  background: #900000;
+}
+
+div[id^="reverb-par"] {
+  width: 11%;
+}
+
+div[id^="delay-par"] {
+  width: 11%;
+}
+
+div[id^="chorus-par"] {
+  width: 11%;
+}
+
+div[id^="room-par"] {
+  width: 11%;
+}
+
+div#bpm {
+  width: 11%;
+}

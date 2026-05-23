@@ -1,0 +1,18 @@
+<div class="row g-0 bar-container h-80 position-relative">
+  <div class="col-12 bar bar-green position-absolute bottom-0 start-0 z-2">
+  </div>
+  <div class="col-12 bar bar-green position-absolute bottom-0 start-0 z-1 opacity-75">
+  </div>
+</div>
+<div class="row g-0 pt-2">
+  <div class="col">
+    <span id="channel-level">
+      <% if (typeof level !== 'undefined') { %><%= level %><% } else { %> -80db <% } %>
+    </span>
+  </div>
+</div>
+<div class="row g-0">
+  <div class="col">
+    <% if (typeof name !== 'undefined') { %><%= name %><% } %> <% if (typeof number !== 'undefined') { %><%= number %><% } %>
+  </div>
+</div>

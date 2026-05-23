@@ -2,7 +2,138 @@
 <html lang="en">
   <%- include("partials/header.ejs", {subtitle: "Index"}) %>
   <body>
+    <%- include("partials/settings.ejs") %>
+    <%- include("partials/toasts.ejs") %>
+    <div class="container-fluid text-center text-white">
+      <div class="row px-2 d-flex align-items-end" id="inputs-16" style="height: 35vh;">
+        <div class="col g-0 h-100">
+          <div class="row g-0 pt-3 h-50">
+            <% for (let c=0; c < 3; c++) { %>
+            <div class="col-4 px-3" id="fx-channel-<%= c %>">
+              <%- include("partials/fxsendgauge.ejs", {input: c+1}) %>
+            </div>
+            <% } %>
+          </div>
+          <div class="row g-0 pt-3 h-50">
+            <% for (let c=0; c < 3; c++) { %>
+            <div class="col-4 px-3" id="fx-channel-<%= c + 3 %>">
+              <%- include("partials/fxsendgauge.ejs", {input: c+4}) %>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="row px-2 d-flex align-items-end d-none" id="inputs-712" style="height: 35vh;">
+        <div class="col g-0 h-100">
+          <div class="row g-0 pt-3 h-50">
+            <% for (let c=0; c < 3; c++) { %>
+            <div class="col-4 px-3" id="fx-channel-<%= c + 6 %>">
+              <%- include("partials/fxsendgauge.ejs", {input: c+7}) %>
+            </div>
+            <% } %>
+          </div>
+          <div class="row g-0 pt-3 h-50">
+            <% for (let c=0; c < 3; c++) { %>
+            <div class="col-4 px-3" id="fx-channel-<%= c + 9 %>">
+              <%- include("partials/fxsendgauge.ejs", {input: c+10}) %>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="row px-2 d-flex align-items-end" style="height: 35vh;">
+        <div class="col-6 g-0 h-100">
+          <div class="row g-0 h-100">
+            <% for (let i=0; i < 7; i++) { %>
+            <div class="col px-2" id="input-<%= i%>">
+              <%- include("partials/layeredbars.ejs", {name: "Input", number: i + 1}) %>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <div class="col-6 g-0 h-100">
+          <div class="row g-0 h-100">
+            <% for (let i=0; i < 5; i++) { %>
+            <div class="col px-2" id="input-<%= i %>">
+              <%- include("partials/layeredbars.ejs", {name: "Input", number: i + 8}) %>
+            </div>
+            <% } %>
+            <div class="col ps-2" id="master-l">
+              <%- include("partials/layeredbars.ejs", {name: "Master L"}) %>
+            </div>
+            <div class="col pe-2" id="master-r">
+              <%- include("partials/layeredbars.ejs", {name: "Master R"}) %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row px-2 d-flex align-items-end" style="height: 30vh;">
+        <div class="col-6 g-0 h-100">
+          <div class="row g-0 px-1 h-100">
+            <div class="col px-1" id="reverb-par1">
+              <%- include("partials/rowbar.ejs", {name: "Time", color: "bar-blue"}) %>
+            </div>
+            <div class="col px-1" id="reverb-par2">
+              <%- include("partials/rowbar.ejs", {name: "HF", color: "bar-blue"}) %>
+            </div>
+            <div class="col px-1" id="reverb-par3">
+              <%- include("partials/rowbar.ejs", {name: "Bass", color: "bar-blue"}) %>
+            </div>
+            <div class="col px-1" id="reverb-par4">
+              <%- include("partials/rowbar.ejs", {name: "LPF", color: "bar-blue"}) %>
+            </div>
+            <div class="col px-1 pe-1" id="reverb-par5">
+              <%- include("partials/rowbar.ejs", {name: "HPF", color: "bar-blue"}) %>
+            </div>
+            <div class="col px-1 ps-1" id="delay-par1">
+              <%- include("partials/rowbar.ejs", {name: "Time", color: "bar-orange"}) %>
+            </div>
+            <div class="col px-1" id="delay-par2">
+              <%- include("partials/rowbar.ejs", {name: "Div", color: "bar-orange"}) %>
+            </div>
+            <div class="col px-1" id="delay-par3">
+              <%- include("partials/rowbar.ejs", {name: "FBack", color: "bar-orange"}) %>
+            </div>
+            <div class="col px-1" id="delay-par4">
+              <%- include("partials/rowbar.ejs", {name: "LPF", color: "bar-orange"}) %>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 g-0 h-100">
+          <div class="row g-0 px-1 h-100">
+            <div class="col px-1" id="chorus-par1">
+              <%- include("partials/rowbar.ejs", {name: "Detune", color: "bar-purple"}) %>
+            </div>
+            <div class="col px-1" id="chorus-par2">
+              <%- include("partials/rowbar.ejs", {name: "Density", color: "bar-purple"}) %>
+            </div>
+            <div class="col px-1 pe-1" id="chorus-par3">
+              <%- include("partials/rowbar.ejs", {name: "LPF", color: "bar-purple"}) %>
+            </div>
+            <div class="col px-1 ps-1" id="room-par1">
+              <%- include("partials/rowbar.ejs", {name: "Time", color: "bar-green"}) %>
+            </div>
+            <div class="col px-1" id="room-par2">
+              <%- include("partials/rowbar.ejs", {name: "HF", color: "bar-green"}) %>
+            </div>
+            <div class="col px-1" id="room-par3">
+              <%- include("partials/rowbar.ejs", {name: "Bass", color: "bar-green"}) %>
+            </div>
+            <div class="col px-1" id="room-par4">
+              <%- include("partials/rowbar.ejs", {name: "LPF", color: "bar-green"}) %>
+            </div>
+            <div class="col px-1 pe-1" id="room-par5">
+              <%- include("partials/rowbar.ejs", {name: "HPF", color: "bar-green"}) %>
+            </div>
+            <div class="col px-1 ps-1" id="bpm">
+              <%- include("partials/rowbar.ejs", {name: "BPM", color: "bar-orange", level: "60"}) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modals"></div>
     <%- include("partials/scripts.ejs") %>
-    <script src="js/index.js"></script>
+    <script src="js/index_new.js"></script>
   </body>
 </html>
